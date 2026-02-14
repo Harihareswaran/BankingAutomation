@@ -10,11 +10,6 @@ pipeline {
         ANDROID_HOME = "C:\\path\\to\\android\\sdk"
     }
 
-    triggers {
-        // Runs every 1 minute
-        cron('H/1 * * * *')
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -33,14 +28,28 @@ pipeline {
         stage('Run Smoke Tests') {
             steps {
                 echo "Running SMOKE tests..."
-                bat 'mvn test -Dcucumber.filter.tags="@smoke"'
+                script {
+                    try {
+                        bat 'mvn test -Dcucumber.filter.tags="@smoke"'
+                    } catch(Exception e) {
+                        echo "Smoke tests failed, continuing pipeline..."
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
             }
         }
 
         stage('Run Regression Tests') {
             steps {
                 echo "Running REGRESSION tests..."
-                bat 'mvn test -Dcucumber.filter.tags="@regression"'
+                script {
+                    try {
+                        bat 'mvn test -Dcucumber.filter.tags="@regression"'
+                    } catch(Exception e) {
+                        echo "Regression tests failed, continuing pipeline..."
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
             }
         }
 
@@ -63,13 +72,13 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
         }
         success {
-            echo "Build & tests completed successfully ✅"
+            echo "Build & tests completed successfully"
         }
         unstable {
-            echo "Build unstable ⚠️"
+            echo "Build unstable"
         }
         failure {
-            echo "Build failed ❌"
+            echo "Build failed "
         }
     }
 }
