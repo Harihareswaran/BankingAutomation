@@ -10,6 +10,11 @@ pipeline {
         ANDROID_HOME = "C:\\path\\to\\android\\sdk"
     }
 
+    triggers {
+        // Runs every 1 minute
+        cron('H/1 * * * *')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -42,7 +47,11 @@ pipeline {
         stage('Generate Reports') {
             steps {
                 echo 'Publishing Cucumber reports...'
-                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'target/cucumber-report.json'
+                cucumber(
+                    buildStatus: 'UNSTABLE', 
+                    fileIncludePattern: 'target/cucumber-report.json', 
+                    jsonReportDirectory: 'target'
+                )
             }
         }
     }
@@ -54,13 +63,13 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
         }
         success {
-            echo "Build & tests completed successfully"
+            echo "Build & tests completed successfully ✅"
         }
         unstable {
-            echo "Build unstable"
+            echo "Build unstable ⚠️"
         }
         failure {
-            echo "Build failed"
+            echo "Build failed ❌"
         }
     }
 }
