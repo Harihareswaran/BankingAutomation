@@ -99,7 +99,7 @@ script {
 ## Reports
 
 * Screenshots (on failure) are saved via `hooks.AppHooks`
-* Jenkins publishes JUnit / Cucumber reports for CI/CD pipelines
+* Jenkins publishes Cucumber reports for CI/CD pipelines
 
 
 
