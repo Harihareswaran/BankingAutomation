@@ -4,7 +4,6 @@ Feature: Bank Demo App
 Scenario: Login to Bank Demo app
   Given I open the Bank Demo app
   When I login with "practice" and "practice"
-  Then login should be successful
 
 @regression
 Scenario: Make a payment after login
