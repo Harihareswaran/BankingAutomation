@@ -1,0 +1,5 @@
+pages\BasePage.class
+pages\TransactionPage.class
+BankAppAutomation\BankAppAutomation\App.class
+pages\LoginPage.class
+pages\HomePage.class

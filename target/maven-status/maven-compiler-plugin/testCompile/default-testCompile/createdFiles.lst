@@ -1,0 +1,5 @@
+BankAppAutomation\BankAppAutomation\AppTest.class
+runners\TestRunner.class
+drivers\BaseDriver.class
+StepDefinition\BankSteps.class
+hooks\AppHooks.class

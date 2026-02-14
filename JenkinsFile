@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven-3.9.6'
+        jdk 'JDK17'     // Configure JDK in Jenkins
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/<your-username>/<repo-name>.git', branch: 'main'
+            }
+        }
+        stage('Build & Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+        stage('Generate Report') {
+            steps {
+                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/target/cucumber-reports/*.json'
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.html', allowEmptyArchive: true
+            junit '**/target/surefire-reports/*.xml'
+        }
+    }
+}

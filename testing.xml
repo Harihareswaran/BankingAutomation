@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="BankDemoAppiumSuite" parallel="none">
+
+    <test name="BankDemoTests">
+        <classes>
+            <class name="runners.TestRunner"/>
+        </classes>
+    </test>
+
+</suite>
+
