@@ -7,35 +7,35 @@ pipeline {
     }
 
     environment {
-        ANDROID_HOME = "/path/to/android/sdk"
+        ANDROID_HOME = "C:\\path\\to\\android\\sdk"
     }
 
     stages {
         stage('Checkout') {
             steps {
                 echo "Checking out code..."
-                git url: 'https://github.com/<your-username>/<repo-name>.git', branch: 'main'
+                git url: 'https://github.com/Harihareswaran/BankingAutomation.git', branch: 'main'
             }
         }
 
         stage('Build Project') {
             steps {
                 echo "Building project..."
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Run Smoke Tests') {
             steps {
                 echo "Running SMOKE tests..."
-                sh "mvn test -Dcucumber.filter.tags='@smoke'"
+                bat 'mvn test -Dcucumber.filter.tags="@smoke"'
             }
         }
 
         stage('Run Regression Tests') {
             steps {
                 echo "Running REGRESSION tests..."
-                sh "mvn test -Dcucumber.filter.tags='@regression'"
+                bat 'mvn test -Dcucumber.filter.tags="@regression"'
             }
         }
 
@@ -54,13 +54,13 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
         }
         success {
-            echo "Build & tests completed successfully "
+            echo "Build & tests completed successfully ✅"
         }
         unstable {
-            echo "Build unstable "
+            echo "Build unstable ⚠️"
         }
         failure {
-            echo "Build failed "
+            echo "Build failed ❌"
         }
     }
 }
