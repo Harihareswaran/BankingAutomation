@@ -39,16 +39,18 @@ pipeline {
             }
         }
 
-stage('Generate Reports') {
-    steps {
-        echo 'Publishing Cucumber and TestNG reports...'
-        cucumber buildStatus: 'UNSTABLE', 
-                 fileIncludePattern: 'target/cucumber-report.json', 
-                 jsonReportDirectory: 'target', 
-                 pluginFormat: 'json'
+        stage('Generate Reports') {
+            steps {
+                echo 'Publishing Cucumber and TestNG reports...'
+                cucumber(
+                    buildStatus: 'UNSTABLE', 
+                    fileIncludePattern: 'target/cucumber-report.json', 
+                    jsonReportDirectory: 'target', 
+                    pluginFormat: 'json'
+                )
+            }
+        }
     }
-}
-
 
     post {
         always {
@@ -57,13 +59,13 @@ stage('Generate Reports') {
             junit '**/target/surefire-reports/*.xml'
         }
         success {
-            echo "Build & tests completed successfully ✅"
+            echo "Build & tests completed successfully"
         }
         unstable {
-            echo "Build unstable ⚠️"
+            echo "Build unstable"
         }
         failure {
-            echo "Build failed ❌"
+            echo "Build failed "
         }
     }
 }
