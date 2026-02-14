@@ -41,13 +41,8 @@ pipeline {
 
         stage('Generate Reports') {
             steps {
-                echo 'Publishing Cucumber and TestNG reports...'
-                cucumber(
-                    buildStatus: 'UNSTABLE', 
-                    fileIncludePattern: 'target/cucumber-report.json', 
-                    jsonReportDirectory: 'target', 
-                    pluginFormat: 'json'
-                )
+                echo 'Publishing Cucumber reports...'
+                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'target/cucumber-report.json'
             }
         }
     }
@@ -65,7 +60,7 @@ pipeline {
             echo "Build unstable"
         }
         failure {
-            echo "Build failed "
+            echo "Build failed"
         }
     }
 }
